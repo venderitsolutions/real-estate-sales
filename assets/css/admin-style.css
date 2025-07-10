@@ -1,0 +1,373 @@
+/* Real Estate Sales Admin Styles */
+
+/* General Layout */
+.res-form-section {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+}
+
+.res-form-section h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #23282d;
+}
+
+.res-form-subsection {
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.res-form-subsection:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.res-form-subsection h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #555;
+    font-size: 16px;
+}
+
+.res-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.res-form-group {
+    margin-bottom: 15px;
+}
+
+.res-form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.res-form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #23282d;
+}
+
+.res-form-group input,
+.res-form-group select,
+.res-form-group textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.res-form-actions {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+}
+
+.res-form-actions button {
+    margin-right: 10px;
+}
+
+/* Dashboard Widgets */
+.res-widgets {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.res-widget {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+}
+
+.res-widget h3 {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.res-amount {
+    font-size: 24px;
+    font-weight: bold;
+    color: #0073aa;
+}
+
+.res-count {
+    font-size: 36px;
+    font-weight: bold;
+    color: #23282d;
+}
+
+/* Charts */
+.res-charts {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+}
+
+.res-chart-container {
+    max-width: 100%;
+    height: 400px;
+}
+
+/* Reports */
+.res-reports {
+    margin-top: 30px;
+}
+
+.res-report-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.res-report-card {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    padding: 20px;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+}
+
+/* Summary Cards */
+.res-summary-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.summary-card {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    padding: 20px;
+    text-align: center;
+    border-radius: 4px;
+}
+
+.summary-card h3 {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.summary-card .amount {
+    font-size: 20px;
+    font-weight: bold;
+    color: #28a745;
+}
+
+/* Status Badge */
+.status-badge {
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status-active {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-cancelled {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.status-pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+/* Modals */
+#team-members-modal,
+#developer-projects-modal,
+#project-sales-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    padding: 30px;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 5px 15px rgba(0,0,0,.3);
+    z-index: 100000;
+}
+
+.modal-content h3 {
+    margin-top: 0;
+}
+
+/* Settings */
+.settings-section {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    margin-bottom: 20px;
+}
+
+.settings-section h3 {
+    margin: 0;
+    padding: 15px 20px;
+    background: #f5f5f5;
+    cursor: pointer;
+    border-bottom: 1px solid #ccd0d4;
+}
+
+.settings-section h3:hover {
+    background: #ebebeb;
+}
+
+.settings-section h3 .count {
+    float: right;
+    color: #666;
+}
+
+.settings-content {
+    padding: 20px;
+    display: none;
+}
+
+.settings-section h3.active + .settings-content {
+    display: block;
+}
+
+.add-new-item {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+}
+
+.add-new-item h4 {
+    margin-top: 0;
+}
+
+.new-item-input {
+    width: 300px;
+    margin-right: 10px;
+}
+
+/* Reports */
+.res-reports-container {
+    background: #fff;
+    padding: 20px;
+}
+
+.res-report-filters {
+    background: #f5f5f5;
+    padding: 20px;
+    margin-bottom: 30px;
+    border: 1px solid #ddd;
+}
+
+.filter-row {
+    margin-bottom: 15px;
+}
+
+.filter-row label {
+    display: inline-block;
+    width: 100px;
+    font-weight: 600;
+}
+
+.report-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.report-card {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    padding: 20px;
+    text-align: center;
+    border-radius: 4px;
+}
+
+.report-card h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.report-card p {
+    color: #666;
+    margin-bottom: 15px;
+}
+
+#report-results {
+    background: #fff;
+    padding: 20px;
+    margin-top: 30px;
+    border: 1px solid #ddd;
+}
+
+.report-actions {
+    margin-bottom: 20px;
+    text-align: right;
+}
+
+.report-actions button {
+    margin-left: 10px;
+}
+
+/* Hierarchy View */
+.res-hierarchy-view {
+    background: #fff;
+    padding: 20px;
+    margin-top: 30px;
+    border: 1px solid #ccd0d4;
+}
+
+.hierarchy-tree {
+    margin-top: 20px;
+}
+
+.hierarchy-level {
+    margin-bottom: 15px;
+}
+
+.position-box {
+    display: inline-block;
+    background: #f5f5f5;
+    border: 2px solid #ddd;
+    padding: 10px 20px;
+    border-radius: 4px;
+}
+
+.position-box strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.position-box small {
+    color: #666;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .res-form-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .res-widgets {
+        grid-template-columns: 1fr;
+    }
+    
+    .res-summary-cards {
+        grid-template-columns: 1fr;
+    }
+}
