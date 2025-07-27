@@ -21,12 +21,14 @@ $collections = $wpdb->get_results("
            CONCAT(c.first_name, ' ', c.surname) as client_name,
            a.agent_name,
            d.developer_name,
-           p.project_name
+           p.project_name,
+           v.voucher_number
     FROM {$wpdb->prefix}res_account_collections ac
     LEFT JOIN {$wpdb->prefix}res_clients c ON ac.client_id = c.client_id
     LEFT JOIN {$wpdb->prefix}res_sales_agents a ON ac.agent_id = a.agent_id
     LEFT JOIN {$wpdb->prefix}res_developers d ON ac.developer_id = d.developer_id
     LEFT JOIN {$wpdb->prefix}res_projects p ON ac.project_id = p.project_id
+    LEFT JOIN {$wpdb->prefix}res_commission_vouchers v ON ac.voucher_id = v.voucher_id
     ORDER BY ac.date_collected DESC
 ");
 
@@ -35,6 +37,8 @@ $total_gross = $wpdb->get_var("SELECT SUM(gross_commission) FROM {$wpdb->prefix}
 $total_net = $wpdb->get_var("SELECT SUM(net_commission) FROM {$wpdb->prefix}res_account_collections");
 $total_vat = $wpdb->get_var("SELECT SUM(vat) FROM {$wpdb->prefix}res_account_collections");
 $total_ewt = $wpdb->get_var("SELECT SUM(ewt) FROM {$wpdb->prefix}res_account_collections");
+$total_released = $wpdb->get_var("SELECT SUM(gross_commission) FROM {$wpdb->prefix}res_account_collections WHERE is_released = 1");
+$total_unreleased = $wpdb->get_var("SELECT SUM(gross_commission) FROM {$wpdb->prefix}res_account_collections WHERE is_released = 0");
 ?>
 
 <div class="wrap">
@@ -51,12 +55,12 @@ $total_ewt = $wpdb->get_var("SELECT SUM(ewt) FROM {$wpdb->prefix}res_account_col
             <p class="amount">₱<?php echo number_format($total_net ?: 0, 2); ?></p>
         </div>
         <div class="summary-card">
-            <h3>Total VAT</h3>
-            <p class="amount">₱<?php echo number_format($total_vat ?: 0, 2); ?></p>
+            <h3>Released Commissions</h3>
+            <p class="amount">₱<?php echo number_format($total_released ?: 0, 2); ?></p>
         </div>
         <div class="summary-card">
-            <h3>Total EWT</h3>
-            <p class="amount">₱<?php echo number_format($total_ewt ?: 0, 2); ?></p>
+            <h3>Unreleased Commissions</h3>
+            <p class="amount">₱<?php echo number_format($total_unreleased ?: 0, 2); ?></p>
         </div>
     </div>
     
@@ -161,6 +165,11 @@ $total_ewt = $wpdb->get_var("SELECT SUM(ewt) FROM {$wpdb->prefix}res_account_col
                 <h3>Commission Details</h3>
                 <div class="res-form-grid">
                     <div class="res-form-group">
+                        <label>Commission Percentage*</label>
+                        <input type="number" name="commission_percentage" id="commission_percentage" step="0.01" min="0" max="100" required>
+                        <small class="description">Enter the commission percentage for this transaction</small>
+                    </div>
+                    <div class="res-form-group">
                         <label>Gross Commission*</label>
                         <input type="number" name="gross_commission" id="gross_commission" step="0.01" required>
                     </div>
@@ -219,10 +228,12 @@ $total_ewt = $wpdb->get_var("SELECT SUM(ewt) FROM {$wpdb->prefix}res_account_col
                     <th>Agent</th>
                     <th>Project</th>
                     <th>Block/Lot</th>
+                    <th>Comm %</th>
                     <th>Gross</th>
                     <th>VAT</th>
                     <th>EWT</th>
                     <th>Net</th>
+                    <th>Status</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -243,13 +254,30 @@ $total_ewt = $wpdb->get_var("SELECT SUM(ewt) FROM {$wpdb->prefix}res_account_col
                         echo esc_html(implode(' ', $location));
                         ?>
                     </td>
+                    <td><?php echo number_format($collection->commission_percentage, 1); ?>%</td>
                     <td>₱<?php echo number_format($collection->gross_commission, 2); ?></td>
                     <td>₱<?php echo number_format($collection->vat, 2); ?></td>
                     <td>₱<?php echo number_format($collection->ewt, 2); ?></td>
                     <td><strong>₱<?php echo number_format($collection->net_commission, 2); ?></strong></td>
                     <td>
-                        <a href="#" class="edit-collection" data-id="<?php echo $collection->acct_collection_id; ?>">Edit</a> |
-                        <a href="#" class="delete-collection" data-id="<?php echo $collection->acct_collection_id; ?>">Delete</a>
+                        <?php if ($collection->is_released): ?>
+                            <span class="status-badge status-released">
+                                Released
+                                <?php if ($collection->voucher_number): ?>
+                                    <br><small><?php echo esc_html($collection->voucher_number); ?></small>
+                                <?php endif; ?>
+                            </span>
+                        <?php else: ?>
+                            <span class="status-badge status-unreleased">Unreleased</span>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <?php if (!$collection->is_released): ?>
+                            <a href="#" class="edit-collection" data-id="<?php echo $collection->acct_collection_id; ?>">Edit</a> |
+                            <a href="#" class="delete-collection" data-id="<?php echo $collection->acct_collection_id; ?>">Delete</a>
+                        <?php else: ?>
+                            <span class="text-muted">Released</span>
+                        <?php endif; ?>
                     </td>
                 </tr>
                 <?php endforeach; ?>
@@ -257,6 +285,22 @@ $total_ewt = $wpdb->get_var("SELECT SUM(ewt) FROM {$wpdb->prefix}res_account_col
         </table>
     </div>
 </div>
+
+<style>
+.status-released {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-unreleased {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.text-muted {
+    color: #6c757d;
+}
+</style>
 
 <script>
 jQuery(document).ready(function($) {

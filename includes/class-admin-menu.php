@@ -24,7 +24,7 @@ class RES_Admin_Menu {
             array('Teams', 'Teams', 'teams'),
             array('Sales', 'Sales', 'sales'),
             array('Positions', 'Positions', 'positions'),
-            array('Commissions', 'Commissions', 'commissions'),
+            array('Commission Vouchers', 'Vouchers', 'commission-vouchers'),
             array('Collections', 'Collections', 'collections'),
             array('Developer Collections', 'Dev Collections', 'developer-collections'),
             array('Reports', 'Reports', 'reports'),
@@ -50,6 +50,12 @@ class RES_Admin_Menu {
     
     public function load_module() {
         $module = isset($_GET['module']) ? sanitize_text_field($_GET['module']) : 'dashboard';
+        
+        // Handle commission vouchers module
+        if ($module === 'commission-vouchers') {
+            $module = 'commissions';
+        }
+        
         $module_file = RES_PLUGIN_DIR . 'modules/' . $module . '.php';
         
         if (file_exists($module_file)) {
